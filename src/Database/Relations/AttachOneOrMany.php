@@ -2,8 +2,6 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use October\Rain\Database\Attach\File as FileModel;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * AttachOneOrMany
@@ -441,36 +439,6 @@ trait AttachOneOrMany
     }
 
     /**
-     * @deprecated this method is removed in October CMS v4
-     */
-    public function makeValidationFile($value)
-    {
-        if ($value instanceof FileModel) {
-            $localPath = $value->getLocalPath();
-
-            // Exception handling for UploadedFile
-            if (file_exists($localPath)) {
-                return new UploadedFile(
-                    $localPath,
-                    $value->file_name,
-                    $value->content_type,
-                    null,
-                    true
-                );
-            }
-
-            // Fallback to string
-            $value = $localPath;
-        }
-
-        /*
-         * @todo `$value` might be a string, may not validate
-         */
-
-        return $value;
-    }
-
-    /**
      * ensureRelationIsEmpty ensures the relation is empty, either deleted or nulled.
      */
     protected function ensureRelationIsEmpty()
@@ -492,21 +460,5 @@ trait AttachOneOrMany
     public function getRelatedKeyName()
     {
         return $this->related->getKeyName();
-    }
-
-    /**
-     * @deprecated use getForeignKeyName
-     */
-    public function getForeignKey()
-    {
-        return $this->foreignKey;
-    }
-
-    /**
-     * @deprecated use getLocalKeyName
-     */
-    public function getOtherKey()
-    {
-        return $this->localKey;
     }
 }

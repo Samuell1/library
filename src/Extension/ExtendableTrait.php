@@ -593,12 +593,4 @@ trait ExtendableTrait
 
         return $dynamicCallable;
     }
-
-    /**
-     * @deprecated use \October\Rain\Extension\Container::clearExtensions()
-     */
-    public static function clearExtendedClasses()
-    {
-        Container::clearExtensions();
-    }
 }

@@ -19,12 +19,6 @@ class BelongsToMany extends BelongsToManyBase
     use \October\Rain\Database\Concerns\HasNicerPagination;
 
     /**
-     * @var bool countMode sets this relation object is a 'count' helper
-     * @deprecated use Laravel withCount() method instead
-     */
-    public $countMode = false;
-
-    /**
      * __construct a new belongs to many relationship instance.
      *
      * @param  string  $table
@@ -494,40 +488,6 @@ class BelongsToMany extends BelongsToManyBase
         }
 
         return $value;
-    }
-
-    /**
-     * @deprecated use getQualifiedForeignPivotKeyName
-     */
-    public function getForeignKey()
-    {
-        return $this->table.'.'.$this->foreignPivotKey;
-    }
-
-    /**
-     * @deprecated use getQualifiedRelatedPivotKeyName
-     */
-    public function getOtherKey()
-    {
-        return $this->table.'.'.$this->relatedPivotKey;
-    }
-
-    /**
-     * shouldSelect gets the select columns for the relation query
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    protected function shouldSelect(array $columns = ['*'])
-    {
-        // @deprecated remove this whole method when `countMode` is gone
-        if ($this->countMode) {
-            return $this->table.'.'.$this->foreignPivotKey.' as pivot_'.$this->foreignPivotKey;
-        }
-
-        if ($columns === ['*']) {
-            $columns = [$this->related->getTable().'.*'];
-        }
-
-        return array_merge($columns, $this->aliasedPivotColumns());
     }
 
     /**

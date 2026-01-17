@@ -193,12 +193,4 @@ class BelongsTo extends BelongsToBase
     {
         return $this->child->getAttribute($this->getForeignKeyName());
     }
-
-    /**
-     * @deprecated use getOwnerKeyName
-     */
-    public function getOtherKey()
-    {
-        return $this->ownerKey;
-    }
 }

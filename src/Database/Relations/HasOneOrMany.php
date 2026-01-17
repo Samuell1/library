@@ -320,20 +320,4 @@ trait HasOneOrMany
     {
         return $this->related->getKeyName();
     }
-
-    /**
-     * @deprecated use getForeignKeyName
-     */
-    public function getForeignKey()
-    {
-        return $this->foreignKey;
-    }
-
-    /**
-     * @deprecated use getLocalKeyName
-     */
-    public function getOtherKey()
-    {
-        return $this->localKey;
-    }
 }

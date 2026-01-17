@@ -1,7 +1,5 @@
 <?php namespace October\Rain\Database\Relations;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany as BelongsToManyBase;
-
 /**
  * DefinedConstraints handles the constraints and filters defined by a relation
  * eg: 'conditions' => 'is_published = 1'
@@ -51,22 +49,6 @@ trait DefinedConstraints
         if (array_get($args, 'timestamps')) {
             $relation->withTimestamps();
         }
-
-        // Count "helper" relation
-        // @deprecated use Laravel withCount() method instead
-        if (array_get($args, 'count')) {
-            if ($relation instanceof BelongsToManyBase) {
-                $relation->countMode = true;
-                $keyName = $relation->getQualifiedForeignPivotKeyName();
-            }
-            else {
-                $keyName = $relation->getForeignKeyName();
-            }
-
-            $countSql = $this->parent->getConnection()->raw('count(*) as count');
-
-            $relation->select($keyName, $countSql)->groupBy($keyName)->orderBy($keyName);
-        }
     }
 
     /**
@@ -84,9 +66,7 @@ trait DefinedConstraints
         }
 
         // Sort order
-        // @deprecated count is deprecated
-        $hasCountArg = array_get($args, 'count') !== null;
-        if (($orderBy = array_get($args, 'order')) && !$hasCountArg) {
+        if ($orderBy = array_get($args, 'order')) {
             if (!is_array($orderBy)) {
                 $orderBy = [$orderBy];
             }

@@ -110,19 +110,6 @@ class Model extends EloquentModel
     }
 
     /**
-     * @deprecated use unsetRelation or unsetRelations
-     */
-    public function reloadRelations($relationName = null)
-    {
-        if (!$relationName) {
-            $this->unsetRelations();
-        }
-        else {
-            $this->unsetRelation($relationName);
-        }
-    }
-
-    /**
      * extend this object properties upon construction.
      */
     public static function extend(callable $callback)
