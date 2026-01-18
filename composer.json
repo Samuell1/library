@@ -61,19 +61,10 @@
     },
     "scripts": {
         "test": [
-            "pest --stop-on-failure"
-        ],
-        "test:unit": [
-            "pest --testsuite=Unit --stop-on-failure"
-        ],
-        "test:feature": [
-            "pest --testsuite=Feature --stop-on-failure"
-        ],
-        "test:coverage": [
-            "pest --coverage --min=80"
-        ],
-        "test:phpunit": [
             "phpunit --stop-on-failure"
+        ],
+        "test:pest": [
+            "pest --stop-on-failure"
         ],
         "bench": [
             "phpbench run tests/Benchmark/ --report=default"
