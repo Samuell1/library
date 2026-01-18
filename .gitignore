@@ -11,4 +11,9 @@ composer.lock
 # Other files
 .DS_Store
 php_errors.log
+
+# Testing
 .phpunit.result.cache
+.phpunit.cache
+/build
+coverage.xml

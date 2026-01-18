@@ -31,9 +31,12 @@
     },
     "require-dev": {
         "laravel/framework": "^12.0",
-        "phpunit/phpunit": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0",
+        "pestphp/pest": "^2.0|^3.0",
+        "pestphp/pest-plugin-laravel": "^2.0|^3.0",
         "meyfa/phpunit-assert-gd": "^2.0.0|^3.0.0",
-        "phpbench/phpbench": "^1.2"
+        "phpbench/phpbench": "^1.2",
+        "fakerphp/faker": "^1.23"
     },
     "autoload": {
         "files": [
@@ -50,14 +53,30 @@
     "autoload-dev": {
         "classmap": [
             "tests/TestCase.php"
-        ]
+        ],
+        "psr-4": {
+            "Tests\\": "tests/",
+            "Tests\\Factories\\": "tests/Factories/"
+        }
     },
     "scripts": {
         "test": [
+            "pest --stop-on-failure"
+        ],
+        "test:unit": [
+            "pest --testsuite=Unit --stop-on-failure"
+        ],
+        "test:feature": [
+            "pest --testsuite=Feature --stop-on-failure"
+        ],
+        "test:coverage": [
+            "pest --coverage --min=80"
+        ],
+        "test:phpunit": [
             "phpunit --stop-on-failure"
         ],
         "bench": [
-            "phpbench run tests\\Benchmark\\ --report=default"
+            "phpbench run tests/Benchmark/ --report=default"
         ]
     },
     "extra": {
@@ -71,7 +90,8 @@
     "prefer-stable": true,
     "config": {
         "allow-plugins": {
-            "composer/installers": true
+            "composer/installers": true,
+            "pestphp/pest-plugin": true
         }
     }
 }

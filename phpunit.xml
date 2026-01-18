@@ -1,16 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         backupGlobals="false"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
+         cacheDirectory=".phpunit.cache"
+         backupStaticProperties="false"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         failOnWarning="false"
+         failOnDeprecation="false"
 >
     <testsuites>
         <testsuite name="October Rain Test Suite">
-            <directory>./tests/**</directory>
+            <directory>./tests</directory>
+            <exclude>./tests/Benchmark</exclude>
+            <exclude>./tests/fixtures</exclude>
+            <exclude>./tests/Factories</exclude>
+        </testsuite>
+        <testsuite name="Unit">
+            <directory>./tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>./tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Database">
+            <directory>./tests/Database</directory>
+        </testsuite>
+        <testsuite name="Extension">
+            <directory>./tests/Extension</directory>
+        </testsuite>
+        <testsuite name="Halcyon">
+            <directory>./tests/Halcyon</directory>
         </testsuite>
     </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./src/Foundation/Stubs</directory>
+            <directory suffix=".php">./src/Scaffold/Console/stubs</directory>
+            <file>./src/Support/helpers.php</file>
+        </exclude>
+    </source>
+
+    <coverage includeUncoveredFiles="true"
+              pathCoverage="false"
+              ignoreDeprecatedCodeUnits="true"
+              disableCodeCoverageIgnore="false">
+        <report>
+            <clover outputFile="build/logs/clover.xml"/>
+            <html outputDirectory="build/coverage" lowUpperBound="50" highLowerBound="90"/>
+            <text outputFile="php://stdout" showOnlySummary="true"/>
+        </report>
+    </coverage>
+
+    <logging>
+        <junit outputFile="build/logs/junit.xml"/>
+        <testdoxHtml outputFile="build/logs/testdox.html"/>
+    </logging>
+
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+        <ini name="memory_limit" value="512M"/>
+        <ini name="error_reporting" value="-1"/>
+    </php>
+
+    <groups>
+        <exclude>
+            <group>slow</group>
+            <group>integration</group>
+        </exclude>
+    </groups>
 </phpunit>
