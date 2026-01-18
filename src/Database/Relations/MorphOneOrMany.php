@@ -135,6 +135,38 @@ trait MorphOneOrMany
     }
 
     /**
+     * forceCreateMany creates multiple related models bypassing mass assignment,
+     * with deferred binding support.
+     */
+    public function forceCreateMany(iterable $records, $sessionKey = null)
+    {
+        $instances = $this->related->newCollection();
+
+        foreach ($records as $record) {
+            $model = parent::forceCreate($record);
+
+            if ($sessionKey !== null) {
+                $this->add($model, $sessionKey);
+            }
+
+            $instances->push($model);
+        }
+
+        return $instances;
+    }
+
+    /**
+     * forceCreateManyQuietly creates multiple models bypassing mass assignment
+     * without raising any events, with deferred binding support.
+     */
+    public function forceCreateManyQuietly(iterable $records, $sessionKey = null)
+    {
+        return Model::withoutEvents(function () use ($records, $sessionKey) {
+            return $this->forceCreateMany($records, $sessionKey);
+        });
+    }
+
+    /**
      * createOrFirst attempts to create the record, or if a unique constraint
      * violation occurs, finds the existing record.
      */
@@ -147,6 +179,17 @@ trait MorphOneOrMany
         }
 
         return $model;
+    }
+
+    /**
+     * createOrFirstQuietly attempts to create the record or find existing,
+     * without raising any events, with deferred binding support.
+     */
+    public function createOrFirstQuietly(array $attributes = [], array $values = [], $sessionKey = null)
+    {
+        return Model::withoutEvents(function () use ($attributes, $values, $sessionKey) {
+            return $this->createOrFirst($attributes, $values, $sessionKey);
+        });
     }
 
     /**

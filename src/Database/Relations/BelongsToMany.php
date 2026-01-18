@@ -164,6 +164,17 @@ class BelongsToMany extends BelongsToManyBase
     }
 
     /**
+     * createOrFirstQuietly attempts to create the record or find existing,
+     * without raising any events, with deferred binding support.
+     */
+    public function createOrFirstQuietly(array $attributes = [], array $values = [], array $pivotData = [], $sessionKey = null)
+    {
+        return Model::withoutEvents(function () use ($attributes, $values, $pivotData, $sessionKey) {
+            return $this->createOrFirst($attributes, $values, $pivotData, $sessionKey);
+        });
+    }
+
+    /**
      * attach overrides attach() method of BelongToMany relation
      * This is necessary in order to fire 'model.relation.beforeAttach', 'model.relation.attach' events
      * @param mixed $ids
